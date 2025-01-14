@@ -764,26 +764,34 @@ func (r *MultiClusterHubReconciler) applyTemplate(ctx context.Context, m *operat
 				}
 			}
 		}
-		err := r.Client.Get(ctx, types.NamespacedName{Name: template.GetName(), Namespace: template.GetNamespace()}, template)
-		template.SetManagedFields(nil)
-		// resource not found
-		if err != nil {
-			err := r.Client.Create(ctx, template, &client.CreateOptions{})
-			if err != nil {
-				log.Info(err.Error())
-				wrappedError := pkgerrors.Wrapf(err, "error applying object Name: %s Kind: %s", template.GetName(), template.GetKind())
-				SetHubCondition(&m.Status, *NewHubCondition(operatorv1.ComponentFailure+": "+operatorv1.HubConditionType(template.GetName())+"(Kind:)"+operatorv1.HubConditionType(template.GetKind()), metav1.ConditionTrue, FailedApplyingComponent, wrappedError.Error()))
-				return ctrl.Result{}, wrappedError
+
+		existingTemplate := template.DeepCopy()
+		if err := r.Client.Get(ctx, types.NamespacedName{Name: existingTemplate.GetName(),
+			Namespace: existingTemplate.GetNamespace()}, existingTemplate); err != nil {
+
+			// Template resource does not exist
+			if errors.IsNotFound(err) {
+				if err := r.Client.Create(ctx, template, &client.CreateOptions{}); err != nil {
+					log.Error(err, "Failed to create resource", "Name", template.GetName(), "Kind", template.GetKind())
+
+					wrappedError := pkgerrors.Wrapf(err, "error applying object Name: %s Kind: %s", template.GetName(),
+						template.GetKind())
+					SetHubCondition(&m.Status, *NewHubCondition(operatorv1.ComponentFailure+": "+operatorv1.HubConditionType(template.GetName())+"(Kind:)"+operatorv1.HubConditionType(template.GetKind()), metav1.ConditionTrue, FailedApplyingComponent, wrappedError.Error()))
+					return ctrl.Result{}, wrappedError
+				}
+				log.Info("Created resource", "Name", template.GetName(), "Kind", template.GetKind())
 			} else {
-				r.Log.Info("Creating resource", "Name", template.GetName(), "Kind", template.GetKind())
+				log.Error(err, "Failed to get resource", "Name", template.GetName(), "Kind", template.GetKind())
+				return ctrl.Result{}, err
 			}
 		} else {
-			// resource found
 			force := true
-			err := r.Client.Patch(ctx, template, client.Apply, &client.PatchOptions{Force: &force, FieldManager: "multiclusterhub-operator"})
-			if err != nil {
-				log.Info(err.Error())
-				wrappedError := pkgerrors.Wrapf(err, "error applying object Name: %s Kind: %s", template.GetName(), template.GetKind())
+			if err := r.Client.Patch(ctx, template, client.Apply, &client.PatchOptions{
+				Force: &force, FieldManager: "multiclusterhub-operator"}); err != nil {
+				log.Error(err, "Failed to update resource", "Name", template.GetName(), "Kind", template.GetKind())
+
+				wrappedError := pkgerrors.Wrapf(err, "error applying object Name: %s Kind: %s",
+					template.GetName(), template.GetKind())
 				SetHubCondition(&m.Status, *NewHubCondition(operatorv1.ComponentFailure+": "+operatorv1.HubConditionType(template.GetName())+"(Kind:)"+operatorv1.HubConditionType(template.GetKind()), metav1.ConditionTrue, FailedApplyingComponent, wrappedError.Error()))
 				return ctrl.Result{}, wrappedError
 			}
