@@ -1,0 +1,243 @@
+************* Module generate-shell
+hack/bundle-automation/generate-shell.py:21:0: C0301: Line too long (101/100) (line-too-long)
+hack/bundle-automation/generate-shell.py:35:0: C0301: Line too long (187/100) (line-too-long)
+hack/bundle-automation/generate-shell.py:36:0: C0301: Line too long (126/100) (line-too-long)
+hack/bundle-automation/generate-shell.py:46:0: C0301: Line too long (102/100) (line-too-long)
+hack/bundle-automation/generate-shell.py:49:0: C0301: Line too long (132/100) (line-too-long)
+hack/bundle-automation/generate-shell.py:119:0: C0301: Line too long (107/100) (line-too-long)
+hack/bundle-automation/generate-shell.py:120:0: C0301: Line too long (124/100) (line-too-long)
+hack/bundle-automation/generate-shell.py:121:0: C0301: Line too long (116/100) (line-too-long)
+hack/bundle-automation/generate-shell.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+hack/bundle-automation/generate-shell.py:1:0: C0103: Module name "generate-shell" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/generate-shell.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/bundle-automation/generate-shell.py:21:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+hack/bundle-automation/generate-shell.py:24:4: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+hack/bundle-automation/generate-shell.py:28:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+hack/bundle-automation/generate-shell.py:30:4: C0103: Variable name "e" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/generate-shell.py:31:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+hack/bundle-automation/generate-shell.py:34:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/bundle-automation/generate-shell.py:42:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/bundle-automation/generate-shell.py:42:9: W0621: Redefining name 'args' from outer scope (line 135) (redefined-outer-name)
+hack/bundle-automation/generate-shell.py:112:4: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+hack/bundle-automation/generate-shell.py:8:0: C0411: standard import "import os" should be placed before "import coloredlogs" (wrong-import-order)
+hack/bundle-automation/generate-shell.py:9:0: C0411: standard import "import logging" should be placed before "import coloredlogs" (wrong-import-order)
+hack/bundle-automation/generate-shell.py:10:0: C0411: standard import "import shutil" should be placed before "import coloredlogs" (wrong-import-order)
+hack/bundle-automation/generate-shell.py:11:0: C0411: standard import "import sys" should be placed before "import coloredlogs" (wrong-import-order)
+hack/bundle-automation/generate-shell.py:12:0: C0411: standard import "import time" should be placed before "import coloredlogs" (wrong-import-order)
+hack/bundle-automation/generate-shell.py:14:0: W0611: Unused exc imported from git (unused-import)
+************* Module validate_csv
+hack/bundle-automation/validate_csv.py:14:0: C0301: Line too long (102/100) (line-too-long)
+hack/bundle-automation/validate_csv.py:15:0: C0303: Trailing whitespace (trailing-whitespace)
+hack/bundle-automation/validate_csv.py:26:0: C0301: Line too long (118/100) (line-too-long)
+hack/bundle-automation/validate_csv.py:30:0: C0301: Line too long (110/100) (line-too-long)
+hack/bundle-automation/validate_csv.py:35:0: C0301: Line too long (117/100) (line-too-long)
+hack/bundle-automation/validate_csv.py:36:27: C0303: Trailing whitespace (trailing-whitespace)
+hack/bundle-automation/validate_csv.py:50:0: C0303: Trailing whitespace (trailing-whitespace)
+hack/bundle-automation/validate_csv.py:63:0: C0301: Line too long (126/100) (line-too-long)
+hack/bundle-automation/validate_csv.py:68:0: C0303: Trailing whitespace (trailing-whitespace)
+hack/bundle-automation/validate_csv.py:72:0: C0304: Final newline missing (missing-final-newline)
+hack/bundle-automation/validate_csv.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+hack/bundle-automation/validate_csv.py:10:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/bundle-automation/validate_csv.py:10:0: C0103: Function name "validateFieldMapping" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/validate_csv.py:10:30: C0103: Argument name "ruleType" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/validate_csv.py:10:40: C0103: Argument name "fieldMap" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/validate_csv.py:13:8: C0103: Variable name "x" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/validate_csv.py:22:32: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+hack/bundle-automation/validate_csv.py:26:32: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+hack/bundle-automation/validate_csv.py:30:17: R1714: Consider merging these comparisons with "in" to "ruleType in ('noOpFields', 'optionalFields')" (consider-using-in)
+hack/bundle-automation/validate_csv.py:35:28: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+hack/bundle-automation/validate_csv.py:10:0: R0912: Too many branches (13/12) (too-many-branches)
+hack/bundle-automation/validate_csv.py:42:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/bundle-automation/validate_csv.py:42:0: C0103: Function name "validateCSV" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/validate_csv.py:42:16: C0103: Argument name "csvPath" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/validate_csv.py:45:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+hack/bundle-automation/validate_csv.py:45:70: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/validate_csv.py:48:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+hack/bundle-automation/validate_csv.py:48:31: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/validate_csv.py:54:8: C0103: Variable name "fieldMap" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/validate_csv.py:56:8: C0103: Variable name "fieldMap" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/validate_csv.py:58:8: C0103: Variable name "fieldMap" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/validate_csv.py:60:8: C0103: Variable name "fieldMap" doesn't conform to snake_case naming style (invalid-name)
+hack/bundle-automation/validate_csv.py:7:0: C0411: standard import "import logging" should be placed before "import yaml" (wrong-import-order)
+************* Module dev-update-image-references
+hack/scripts/dev-update-image-references.py:28:0: C0301: Line too long (174/100) (line-too-long)
+hack/scripts/dev-update-image-references.py:44:0: C0301: Line too long (101/100) (line-too-long)
+hack/scripts/dev-update-image-references.py:48:0: C0303: Trailing whitespace (trailing-whitespace)
+hack/scripts/dev-update-image-references.py:61:0: C0303: Trailing whitespace (trailing-whitespace)
+hack/scripts/dev-update-image-references.py:76:0: C0301: Line too long (126/100) (line-too-long)
+hack/scripts/dev-update-image-references.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+hack/scripts/dev-update-image-references.py:1:0: C0103: Module name "dev-update-image-references" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:11:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/scripts/dev-update-image-references.py:11:0: C0103: Function name "getLatestManifest" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:12:4: C0103: Variable name "pipelineDir" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:21:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/scripts/dev-update-image-references.py:21:0: C0103: Function name "getOperandImagesDictionary" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:21:31: C0103: Argument name "latestManifest" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:22:15: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+hack/scripts/dev-update-image-references.py:23:4: C0103: Variable name "imageRefs" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:24:4: C0103: Variable name "operandImages" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:25:8: C0103: Variable name "imageRef" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:26:8: C0103: Variable name "imageKey" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:27:8: C0103: Variable name "imageKey" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:28:16: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+hack/scripts/dev-update-image-references.py:22:15: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+hack/scripts/dev-update-image-references.py:32:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/scripts/dev-update-image-references.py:32:0: C0103: Function name "updateContainerWithEnvVars" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:32:31: C0103: Argument name "containerYaml" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:32:46: C0103: Argument name "operandImages" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:34:8: C0103: Variable name "preexistingVars" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:35:8: C0103: Variable name "preexistingVars" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:39:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/scripts/dev-update-image-references.py:39:0: C0103: Function name "addImageRefsToDeploymentYaml" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:39:33: C0103: Argument name "deployYaml" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:39:45: C0103: Argument name "operandImages" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:40:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+hack/scripts/dev-update-image-references.py:40:29: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:41:8: C0103: Variable name "managerDocs" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:42:8: C0103: Variable name "yamlArr" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:49:13: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+hack/scripts/dev-update-image-references.py:52:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/scripts/dev-update-image-references.py:52:0: C0103: Function name "setImageReferencesInLocalEnvironment" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:52:41: C0103: Argument name "operandImages" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:53:4: C0103: Variable name "envVarsFile" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:58:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+hack/scripts/dev-update-image-references.py:58:35: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:59:12: C0103: Variable name "imageRef" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:63:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/scripts/dev-update-image-references.py:71:4: C0103: Variable name "latestManifest" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:72:4: C0103: Variable name "operandImages" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/dev-update-image-references.py:73:7: C0121: Comparison 'args.local == True' should be 'args.local is True' if checking for the singleton value True, or 'args.local' if testing for truthiness (singleton-comparison)
+hack/scripts/dev-update-image-references.py:5:0: C0411: standard import "import glob" should be placed before "from git import Repo" (wrong-import-order)
+hack/scripts/dev-update-image-references.py:6:0: C0411: standard import "import json" should be placed before "from git import Repo" (wrong-import-order)
+hack/scripts/dev-update-image-references.py:8:0: C0411: standard import "import argparse" should be placed before "from git import Repo" (wrong-import-order)
+hack/scripts/dev-update-image-references.py:9:0: C0411: standard import "import shutil" should be placed before "from git import Repo" (wrong-import-order)
+************* Module generate_images
+hack/scripts/generate_images.py:28:0: C0301: Line too long (174/100) (line-too-long)
+hack/scripts/generate_images.py:44:0: C0301: Line too long (101/100) (line-too-long)
+hack/scripts/generate_images.py:48:0: C0303: Trailing whitespace (trailing-whitespace)
+hack/scripts/generate_images.py:61:0: C0303: Trailing whitespace (trailing-whitespace)
+hack/scripts/generate_images.py:76:0: C0301: Line too long (126/100) (line-too-long)
+hack/scripts/generate_images.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+hack/scripts/generate_images.py:11:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/scripts/generate_images.py:11:0: C0103: Function name "getLatestManifest" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:12:4: C0103: Variable name "pipelineDir" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:21:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/scripts/generate_images.py:21:0: C0103: Function name "getOperandImagesDictionary" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:21:31: C0103: Argument name "latestManifest" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:22:15: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+hack/scripts/generate_images.py:23:4: C0103: Variable name "imageRefs" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:24:4: C0103: Variable name "operandImages" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:25:8: C0103: Variable name "imageRef" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:26:8: C0103: Variable name "imageKey" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:27:8: C0103: Variable name "imageKey" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:28:16: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+hack/scripts/generate_images.py:22:15: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+hack/scripts/generate_images.py:32:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/scripts/generate_images.py:32:0: C0103: Function name "updateContainerWithEnvVars" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:32:31: C0103: Argument name "containerYaml" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:32:46: C0103: Argument name "operandImages" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:34:8: C0103: Variable name "preexistingVars" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:35:8: C0103: Variable name "preexistingVars" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:39:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/scripts/generate_images.py:39:0: C0103: Function name "addImageRefsToDeploymentYaml" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:39:33: C0103: Argument name "deployYaml" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:39:45: C0103: Argument name "operandImages" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:40:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+hack/scripts/generate_images.py:40:29: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:41:8: C0103: Variable name "managerDocs" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:42:8: C0103: Variable name "yamlArr" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:49:13: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+hack/scripts/generate_images.py:52:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/scripts/generate_images.py:52:0: C0103: Function name "setImageReferencesInLocalEnvironment" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:52:41: C0103: Argument name "operandImages" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:53:4: C0103: Variable name "envVarsFile" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:58:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+hack/scripts/generate_images.py:58:35: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:59:12: C0103: Variable name "imageRef" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:63:0: C0116: Missing function or method docstring (missing-function-docstring)
+hack/scripts/generate_images.py:71:4: C0103: Variable name "latestManifest" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:72:4: C0103: Variable name "operandImages" doesn't conform to snake_case naming style (invalid-name)
+hack/scripts/generate_images.py:73:7: C0121: Comparison 'args.local == True' should be 'args.local is True' if checking for the singleton value True, or 'args.local' if testing for truthiness (singleton-comparison)
+hack/scripts/generate_images.py:5:0: C0411: standard import "import glob" should be placed before "from git import Repo" (wrong-import-order)
+hack/scripts/generate_images.py:6:0: C0411: standard import "import json" should be placed before "from git import Repo" (wrong-import-order)
+hack/scripts/generate_images.py:8:0: C0411: standard import "import argparse" should be placed before "from git import Repo" (wrong-import-order)
+hack/scripts/generate_images.py:9:0: C0411: standard import "import shutil" should be placed before "from git import Repo" (wrong-import-order)
+hack/scripts/generate_images.py:1:0: R0801: Similar lines in 2 files
+==dev-update-image-references:[11:83]
+==generate_images:[11:83]
+    pipelineDir = os.path.join(os.getcwd(), "bin/pipeline")
+    if os.path.exists(pipelineDir):
+        shutil.rmtree(pipelineDir)
+    repo = Repo.clone_from("https://github.com/stolostron/pipeline.git", pipelineDir)
+    repo.git.checkout("2.10-integration")
+    manifests = glob.glob('bin/pipeline/snapshots/manifest-*.json')
+    manifests.sort()
+    return manifests[-1]
+
+def getOperandImagesDictionary(latestManifest):
+    manifest = open(latestManifest)
+    imageRefs = json.load(manifest)
+    operandImages = []
+    for imageRef in imageRefs:
+        imageKey = 'OPERAND_IMAGE_' + imageRef['image-key'].upper()
+        imageKey = imageKey.replace('-', '_')
+        image = "{imageRemote}/{imageName}@{imageDigest}".format(imageRemote=imageRef['image-remote'], imageName=imageRef['image-name'], imageDigest=imageRef['image-digest'])
+        operandImages.append({'name': imageKey, 'value': image})
+    return operandImages
+
+def updateContainerWithEnvVars(containerYaml, operandImages):
+    if 'env' in containerYaml:
+        preexistingVars = containerYaml['env']
+        preexistingVars = [x for x in preexistingVars if not x['name'].startswith('OPERAND_IMAGE')]
+        operandImages.extend(preexistingVars)
+    containerYaml['env'] = operandImages
+
+def addImageRefsToDeploymentYaml(deployYaml, operandImages):
+    with open(deployYaml) as f:
+        managerDocs = yaml.load_all(f, yaml.SafeLoader)
+        yamlArr = []
+        for doc in managerDocs:
+            if doc['kind'] == 'Deployment' and doc['metadata']['name'] == 'multiclusterhub-operator':
+                for container in doc['spec']['template']['spec']['containers']:
+                    updateContainerWithEnvVars(container, operandImages)
+            yamlArr.append(doc)
+
+        with open(deployYaml, 'w') as file:
+            yaml.dump_all(yamlArr, file, Dumper=yaml.SafeDumper)
+
+def setImageReferencesInLocalEnvironment(operandImages):
+    envVarsFile = "env-vars.txt"
+    try:
+        os.remove(envVarsFile)
+    except OSError:
+        pass
+    with open(envVarsFile,"a+") as f:
+        for imageRef in operandImages:
+            f.write('export ' + imageRef['name'] + "=" + imageRef['value'] + "\n")
+
+
+def main():
+
+    parser = argparse.ArgumentParser(description='Process local env vars')
+    parser.add_argument('--local', dest='local', type=bool, nargs='?',
+                        const=True, default=False,
+                    help='Set image references as local environment variables')
+
+    args = parser.parse_args()
+    latestManifest = getLatestManifest()
+    operandImages = getOperandImagesDictionary(latestManifest)
+    if args.local == True:
+        print("Setting locally")
+        setImageReferencesInLocalEnvironment(operandImages)
+        print("env-vars.txt created. Run 'source env-vars.txt' to define the environment variables in your local environment")
+    else:
+        addImageRefsToDeploymentYaml('config/manager/manager.yaml', operandImages)
+        print("Image references added in deployment")
+
+
+if __name__ == "__main__":
+    main() (duplicate-code)
+
+------------------------------------------------------------------
+Your code has been rated at 3.97/10 (previous run: 3.97/10, +0.00)
+

@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    flightctl.service: flightctl-api
+  name: flightctl-api-default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: flightctl-api-default
+subjects:
+- kind: ServiceAccount
+  name: flightctl-api
+  namespace: '{{ default "default" .Values.global.namespace }}'
