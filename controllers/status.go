@@ -88,6 +88,10 @@ func newComponentList(m *operatorsv1.MultiClusterHub, ocpConsole, isSTSEnabled b
 		components[d.Name] = unknownStatus(d.Name, "Deployment")
 	}
 
+	// for _, ss := range utils.GetStatefulSetForStatus(m) {
+	// 	components[ss.Name] = unknownStatus(ss.Name, "StatefulSet")
+	// }
+
 	for _, cr := range utils.GetCustomResourcesForStatus(m) {
 		components[cr.Name] = unknownStatus(cr.Name, "Component")
 	}
@@ -109,8 +113,9 @@ func (r *MultiClusterHubReconciler) ComponentsAreRunning(m *operatorsv1.MultiClu
 	trackedNamespaces := utils.TrackedNamespaces(m)
 
 	deployList, _ := r.listDeployments(trackedNamespaces)
+	statefulSetList, _ := r.listStatefulSets(trackedNamespaces)
 	crList, _ := r.listCustomResources(m)
-	componentStatuses := getComponentStatuses(m, deployList, crList, ocpConsole, isSTSEnabled)
+	componentStatuses := getComponentStatuses(m, deployList, statefulSetList, crList, ocpConsole, isSTSEnabled)
 
 	delete(componentStatuses, ManagedClusterName)
 	return allComponentsSuccessful(componentStatuses)
@@ -149,11 +154,12 @@ func (r *MultiClusterHubReconciler) syncHubStatus(m *operatorsv1.MultiClusterHub
 }
 
 func calculateStatus(hub *operatorsv1.MultiClusterHub, allDeps []*appsv1.Deployment,
-	allCRs map[string]*unstructured.Unstructured, ocpConsole, isSTSEnabled bool) operatorsv1.MultiClusterHubStatus {
+	allStatefulSets []*appsv1.StatefulSet, allCRs map[string]*unstructured.Unstructured,
+	ocpConsole, isSTSEnabled bool) operatorsv1.MultiClusterHubStatus {
 
 	components := map[string]operatorsv1.StatusCondition{}
 	if paused := utils.IsPaused(hub); !paused {
-		components = getComponentStatuses(hub, allDeps, allCRs, ocpConsole, isSTSEnabled)
+		components = getComponentStatuses(hub, allDeps, allStatefulSets, allCRs, ocpConsole, isSTSEnabled)
 	}
 
 	status := operatorsv1.MultiClusterHubStatus{
@@ -216,12 +222,20 @@ func calculateStatus(hub *operatorsv1.MultiClusterHub, allDeps []*appsv1.Deploym
 
 // getComponentStatuses populates a complete list of the hub component statuses
 func getComponentStatuses(hub *operatorsv1.MultiClusterHub, allDeps []*appsv1.Deployment,
-	allCRs map[string]*unstructured.Unstructured, ocpConsole, isSTSEnabled bool) map[string]operatorsv1.StatusCondition {
+	allStatefulSets []*appsv1.StatefulSet, allCRs map[string]*unstructured.Unstructured,
+	ocpConsole, isSTSEnabled bool) map[string]operatorsv1.StatusCondition {
+
 	components := newComponentList(hub, ocpConsole, isSTSEnabled)
 
 	for _, d := range allDeps {
 		if _, ok := components[d.Name]; ok {
 			components[d.Name] = mapDeployment(d)
+		}
+	}
+
+	for _, ss := range allStatefulSets {
+		if _, ok := components[ss.Name]; ok {
+			components[ss.Name] = mapStatefulSet(ss)
 		}
 	}
 
@@ -256,6 +270,10 @@ func successfulDeploy(d *appsv1.Deployment) bool {
 	return d.Status.UnavailableReplicas <= 0
 }
 
+func successfulStatefulSet(ss *appsv1.StatefulSet) bool {
+	return ss.Status.AvailableReplicas == ss.Status.Replicas
+}
+
 func latestDeployCondition(conditions []appsv1.DeploymentCondition) appsv1.DeploymentCondition {
 	if len(conditions) < 1 {
 		return appsv1.DeploymentCondition{}
@@ -269,6 +287,20 @@ func latestDeployCondition(conditions []appsv1.DeploymentCondition) appsv1.Deplo
 	return latest
 }
 
+// func latestStatefulSetCondition(conditions []appsv1.StatefulSetCondition) appsv1.StatefulSetCondition {
+// 	if len(conditions) < 1 {
+// 		return appsv1.StatefulSetCondition{}
+// 	}
+
+// 	latest := conditions[0]
+// 	for i := range conditions {
+// 		if conditions[i].LastTransitionTime.Time.After(latest.LastTransitionTime.Time) {
+// 			latest = conditions[i]
+// 		}
+// 	}
+// 	return latest
+// }
+
 func progressingDeployCondition(conditions []appsv1.DeploymentCondition) appsv1.DeploymentCondition {
 	progressing := appsv1.DeploymentCondition{}
 	for i := range conditions {
@@ -278,6 +310,16 @@ func progressingDeployCondition(conditions []appsv1.DeploymentCondition) appsv1.
 	}
 	return progressing
 }
+
+// func progressingStatefulSetCondition(conditions []appsv1.StatefulSetCondition) appsv1.StatefulSetCondition {
+// 	progressing := appsv1.StatefulSetCondition{}
+// 	for i := range conditions {
+// 		if conditions[i].Type == appsv1.DeploymentProgressing {
+// 			progressing = conditions[i]
+// 		}
+// 	}
+// 	return progressing
+// }
 
 func mapDeployment(ds *appsv1.Deployment) operatorsv1.StatusCondition {
 	if len(ds.Status.Conditions) < 1 {
@@ -319,6 +361,48 @@ func mapDeployment(ds *appsv1.Deployment) operatorsv1.StatusCondition {
 
 	return ret
 }
+
+// func mapStatefulSet(ss *appsv1.StatefulSet) operatorsv1.StatusCondition {
+// 	if len(ss.Status.Conditions) < 1 {
+// 		return unknownStatus(ss.Name, ss.Kind)
+// 	}
+
+// 	sscs := latestStatefulSetCondition(ss.Status.Conditions)
+// 	ret := operatorsv1.StatusCondition{
+// 		Name:               ss.Name,
+// 		Kind:               "StatefulSet",
+// 		Type:               string(sscs.Type),
+// 		Status:             metav1.ConditionStatus(string(sscs.Status)),
+// 		LastUpdateTime:     sscs.LastTransitionTime,
+// 		LastTransitionTime: sscs.LastTransitionTime,
+// 		Reason:             sscs.Reason,
+// 		Message:            sscs.Message,
+// 	}
+
+// 	if successfulStatefulSet(ss) {
+// 		ret.Available = true
+// 		ret.Message = ""
+// 	}
+
+// 	// Because our definition of success is different than the deployment's it is possible we indicate failure
+// 	// despite an available deployment present. To avoid confusion we should show a different status.
+// 	if !ret.Available {
+// 		sub := progressingDeployCondition(ds.Status.Conditions)
+// 		ret = operatorsv1.StatusCondition{
+// 			Name:               ss.Name,
+// 			Kind:               "StatefulSet",
+// 			Type:               string(sub.Type),
+// 			Status:             metav1.ConditionStatus(string(sub.Status)),
+// 			LastUpdateTime:     sub.LastUpdateTime,
+// 			LastTransitionTime: sub.LastTransitionTime,
+// 			Reason:             sub.Reason,
+// 			Message:            sub.Message,
+// 			Available:          false,
+// 		}
+// 	}
+
+// 	return ret
+// }
 
 func mapSubscription(sub *unstructured.Unstructured) operatorsv1.StatusCondition {
 	if sub == nil {

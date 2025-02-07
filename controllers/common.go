@@ -358,6 +358,24 @@ func (r *MultiClusterHubReconciler) listDeployments(namespaces []string) ([]*app
 	return ret, nil
 }
 
+// listStatefulSets gets all statefulsets in the given namespaces
+func (r *MultiClusterHubReconciler) listStatefulSets(namespaces []string) ([]*appsv1.StatefulSet, error) {
+	var ret []*appsv1.StatefulSet
+
+	for _, n := range namespaces {
+		ssList := &appsv1.StatefulSetList{}
+		err := r.Client.List(context.TODO(), ssList, client.InNamespace(n))
+		if err != nil && !errors.IsNotFound(err) {
+			return nil, err
+		}
+
+		for i := 0; i < len(ssList.Items); i++ {
+			ret = append(ret, &ssList.Items[i])
+		}
+	}
+	return ret, nil
+}
+
 // listCustomResources gets custom resources the installer observes
 func (r *MultiClusterHubReconciler) listCustomResources(m *operatorv1.MultiClusterHub) (map[string]*unstructured.Unstructured, error) {
 	ret := make(map[string]*unstructured.Unstructured)
