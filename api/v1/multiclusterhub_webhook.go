@@ -21,6 +21,7 @@ package v1
 import (
 	"context"
 	"fmt"
+	"os"
 	"reflect"
 
 	admissionregistration "k8s.io/api/admissionregistration/v1"
@@ -29,6 +30,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/discovery"
+	"k8s.io/client-go/rest"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
@@ -90,6 +92,7 @@ var (
 var (
 	mchlog = log.Log.WithName("multiclusterhub-resource")
 	Client client.Client
+	cfg    *rest.Config
 )
 
 func (r *MultiClusterHub) SetupWebhookWithManager(mgr ctrl.Manager) error {
@@ -172,9 +175,12 @@ func (r *MultiClusterHub) ValidateUpdate(old runtime.Object) (admission.Warnings
 func (r *MultiClusterHub) ValidateDelete() (admission.Warnings, error) {
 	mchlog.Info("validate delete", "Name", r.Name, "Namespace", r.Namespace)
 
-	cfg, err := config.GetConfig()
-	if err != nil {
-		return nil, err
+	if val, ok := os.LookupEnv("ENV_TEST"); !ok || val == "false" {
+		var err error
+		cfg, err = config.GetConfig()
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	c, err := discovery.NewDiscoveryClientForConfig(cfg)
