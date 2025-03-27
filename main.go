@@ -42,7 +42,6 @@ import (
 	mcev1 "github.com/stolostron/backplane-operator/api/v1"
 	operatorv1 "github.com/stolostron/multiclusterhub-operator/api/v1"
 	"github.com/stolostron/multiclusterhub-operator/controllers"
-	"github.com/stolostron/multiclusterhub-operator/pkg/utils"
 	"github.com/stolostron/multiclusterhub-operator/pkg/version"
 	searchv2v1alpha1 "github.com/stolostron/search-v2-operator/api/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
@@ -238,11 +237,12 @@ func main() {
 	// OLM will use the Readiness condition via our readiness probe instead:
 	// https://olm.operatorframework.io/docs/advanced-tasks/communicating-operator-conditions-to-olm/#setting-defaults
 	setupLog.Info("Setting OperatorCondition.")
-	upgradeableCondition, err := utils.NewOperatorCondition(uncachedClient, operatorsapiv2.Upgradeable)
-	if err != nil {
-		setupLog.Error(err, "Cannot create the Upgradeable Operator Condition")
-		os.Exit(1)
-	}
+
+	// upgradeableCondition, err := utils.NewOperatorCondition(uncachedClient, operatorsapiv2.Upgradeable)
+	// if err != nil {
+	// 	setupLog.Error(err, "Cannot create the Upgradeable Operator Condition")
+	// 	os.Exit(1)
+	// }
 
 	mchList := &operatorv1.MultiClusterHubList{}
 	err = uncachedClient.List(context.TODO(), mchList)
@@ -251,35 +251,35 @@ func main() {
 		os.Exit(1)
 	}
 
-	if len(mchList.Items) == 0 {
-		// If there is no MCH then no upgrade logic is needed.
-		err = upgradeableCondition.Set(ctx, metav1.ConditionTrue, utils.UpgradeableAllowReason, utils.UpgradeableAllowMessage)
-		if err != nil {
-			setupLog.Error(err, "Could not set Operator Condition")
-			os.Exit(1)
-		}
-	} else {
-		// We want to force it to False to ensure that the final decision about whether
-		// the operator can be upgraded stays within the controller.
-		err = upgradeableCondition.Set(ctx, metav1.ConditionFalse, utils.UpgradeableInitReason, utils.UpgradeableInitMessage)
-		if err != nil {
-			setupLog.Error(err, "unable to create uncached client")
-			os.Exit(1)
-		}
-	}
+	// if len(mchList.Items) == 0 {
+	// 	// If there is no MCH then no upgrade logic is needed.
+	// 	err = upgradeableCondition.Set(ctx, metav1.ConditionTrue, utils.UpgradeableAllowReason, utils.UpgradeableAllowMessage)
+	// 	if err != nil {
+	// 		setupLog.Error(err, "Could not set Operator Condition")
+	// 		os.Exit(1)
+	// 	}
+	// } else {
+	// 	// We want to force it to False to ensure that the final decision about whether
+	// 	// the operator can be upgraded stays within the controller.
+	// 	err = upgradeableCondition.Set(ctx, metav1.ConditionFalse, utils.UpgradeableInitReason, utils.UpgradeableInitMessage)
+	// 	if err != nil {
+	// 		setupLog.Error(err, "unable to create uncached client")
+	// 		os.Exit(1)
+	// 	}
+	// }
 
-	// re-create the condition, this time with the final client
-	upgradeableCondition, err = utils.NewOperatorCondition(mgr.GetClient(), operatorsapiv2.Upgradeable)
-	if err != nil {
-		setupLog.Error(err, "unable to create uncached client")
-		os.Exit(1)
-	}
+	// // re-create the condition, this time with the final client
+	// upgradeableCondition, err = utils.NewOperatorCondition(mgr.GetClient(), operatorsapiv2.Upgradeable)
+	// if err != nil {
+	// 	setupLog.Error(err, "unable to create uncached client")
+	// 	os.Exit(1)
+	// }
 	mchReconciler := &controllers.MultiClusterHubReconciler{
-		Client:          mgr.GetClient(),
-		Scheme:          mgr.GetScheme(),
-		UncachedClient:  uncachedClient,
-		Log:             ctrl.Log.WithName("Controller").WithName("Multiclusterhub"),
-		UpgradeableCond: upgradeableCondition,
+		Client:         mgr.GetClient(),
+		Scheme:         mgr.GetScheme(),
+		UncachedClient: uncachedClient,
+		Log:            ctrl.Log.WithName("Controller").WithName("Multiclusterhub"),
+		// UpgradeableCond: upgradeableCondition,
 	}
 
 	mchController, err = mchReconciler.SetupWithManager(mgr)

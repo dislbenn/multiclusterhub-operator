@@ -160,11 +160,11 @@ func (r *MultiClusterHubReconciler) Reconcile(ctx context.Context, req ctrl.Requ
 	r.CheckDeprecatedFieldUsage(multiClusterHub)
 
 	// Check to see if upgradeable
-	upgrade, err := r.setOperatorUpgradeableStatus(ctx, multiClusterHub)
-	if err != nil {
-		r.Log.Error(err, "Unable to set operator condition")
-		return ctrl.Result{}, err
-	}
+	// upgrade, err := r.setOperatorUpgradeableStatus(ctx, multiClusterHub)
+	// if err != nil {
+	// 	r.Log.Error(err, "Unable to set operator condition")
+	// 	return ctrl.Result{}, err
+	// }
 
 	trackedNamespaces := utils.TrackedNamespaces(multiClusterHub)
 
@@ -494,9 +494,9 @@ func (r *MultiClusterHubReconciler) Reconcile(ctx context.Context, req ctrl.Requ
 			return result, err
 		}
 	}
-	if upgrade {
-		return ctrl.Result{RequeueAfter: resyncPeriod}, nil
-	}
+	// if upgrade {
+	// 	return ctrl.Result{RequeueAfter: resyncPeriod}, nil
+	// }
 
 	logf.Log.Info("Reconcile completed. Requeuing after " + utils.ShortRefreshInterval.String())
 	return ctrl.Result{RequeueAfter: utils.ShortRefreshInterval}, nil
