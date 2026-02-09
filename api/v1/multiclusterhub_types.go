@@ -366,6 +366,10 @@ const (
 
 	// ComponentFailure means a deployment failed during an Apply
 	ComponentFailure HubConditionType = "ComponentFailure"
+
+	// ComponentsExternallyManaged indicates that one or more components are being managed
+	// externally and will not be reconciled by the MCH operator
+	ComponentsExternallyManaged HubConditionType = "ComponentsExternallyManaged"
 )
 
 // StatusCondition contains condition information.

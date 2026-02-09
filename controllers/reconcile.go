@@ -104,6 +104,9 @@ func (r *MultiClusterHubReconciler) Reconcile(ctx context.Context, req ctrl.Requ
 		return ctrl.Result{}, err
 	}
 
+	// Check and update status for externally managed components
+	r.checkExternallyManagedComponents(multiClusterHub)
+
 	originalStatus := multiClusterHub.Status.DeepCopy()
 	defer func() {
 		statusQueue, statusError := r.syncHubStatus(ctx, multiClusterHub, originalStatus, allDeploys, allCRs, ocpConsole, stsEnabled)

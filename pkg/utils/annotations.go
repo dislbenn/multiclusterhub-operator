@@ -277,3 +277,11 @@ func ShouldIgnoreOCPVersion(instance *operatorsv1.MultiClusterHub) bool {
 	return HasAnnotation(instance, AnnotationIgnoreOCPVersion) ||
 		HasAnnotation(instance, DeprecatedAnnotationIgnoreOCPVersion)
 }
+
+/*
+GetExternallyManagedAnnotation returns the externally-managed annotation value.
+Returns empty string if not set.
+*/
+func GetExternallyManagedAnnotation(instance *operatorsv1.MultiClusterHub) string {
+	return getAnnotation(instance, AnnotationExternallyManaged)
+}

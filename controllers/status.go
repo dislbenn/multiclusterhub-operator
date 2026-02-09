@@ -78,6 +78,9 @@ const (
 	RequirementsNotMetReason = "RequirementsNotMet"
 
 	FailedApplyingComponent = "FailedApplyingComponent"
+
+	// ExternalManagementReason is added when components are marked as externally managed
+	ExternalManagementReason = "ExternalManagement"
 )
 
 var (

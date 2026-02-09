@@ -20,6 +20,7 @@ package controllers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	operatorv1 "github.com/stolostron/multiclusterhub-operator/api/v1"
@@ -90,6 +91,12 @@ func (r *MultiClusterHubReconciler) ensureComponentOrNoComponent(ctx context.Con
 	component string, cachespec CacheSpec, ocpConsole, isSTSEnabled bool) (ctrl.Result, error) {
 	var result ctrl.Result
 	var err error
+
+	// Skip reconciliation if the component is externally managed
+	if r.isComponentExternallyManaged(m, component) {
+		log.V(2).Info("Skipping reconciliation for externally managed component", "component", component)
+		return ctrl.Result{}, nil
+	}
 
 	if !m.Enabled(component) {
 		if component == operatorv1.ClusterBackup {
@@ -362,4 +369,107 @@ func (r *MultiClusterHubReconciler) applyEnvConfig(template *unstructured.Unstru
 	}
 
 	return nil
+}
+
+/*
+isComponentExternallyManaged checks if a component is marked as externally managed
+in the MultiClusterHub annotations.
+*/
+func (r *MultiClusterHubReconciler) isComponentExternallyManaged(mch *operatorv1.MultiClusterHub,
+	componentName string) bool {
+	managedComponents := utils.GetExternallyManagedAnnotation(mch)
+	if managedComponents == "" {
+		return false
+	}
+
+	// Parse JSON array
+	var components []string
+	if err := json.Unmarshal([]byte(managedComponents), &components); err != nil {
+		return false
+	}
+
+	// Check if component is in the list
+	for _, comp := range components {
+		if comp == componentName {
+			return true
+		}
+	}
+	return false
+}
+
+/*
+checkExternallyManagedComponents validates the externally-managed annotation and sets
+appropriate status conditions to inform users which components are externally managed.
+*/
+func (r *MultiClusterHubReconciler) checkExternallyManagedComponents(mch *operatorv1.MultiClusterHub) {
+	managedComponents := utils.GetExternallyManagedAnnotation(mch)
+	if managedComponents == "" {
+		// Annotation not present or empty, ensure condition is removed
+		RemoveHubCondition(&mch.Status, operatorv1.ComponentsExternallyManaged)
+		return
+	}
+
+	// Parse JSON array
+	var components []string
+	if err := json.Unmarshal([]byte(managedComponents), &components); err != nil {
+		log.Error(err, "Failed to parse externally managed components annotation")
+		// On parse error, remove the condition to avoid showing stale data
+		RemoveHubCondition(&mch.Status, operatorv1.ComponentsExternallyManaged)
+		return
+	}
+
+	if len(components) == 0 {
+		// Empty component list, ensure condition is removed
+		RemoveHubCondition(&mch.Status, operatorv1.ComponentsExternallyManaged)
+		return
+	}
+
+	// Validate and filter components
+	validComponents := []string{}
+	invalidComponents := []string{}
+
+	for _, comp := range components {
+		if operatorv1.ValidComponent(operatorv1.ComponentConfig{Name: comp}, operatorv1.MCHComponents) {
+			validComponents = append(validComponents, comp)
+		} else {
+			invalidComponents = append(invalidComponents, comp)
+		}
+	}
+
+	// Log warning for invalid components
+	if len(invalidComponents) > 0 {
+		log.Info("Invalid component names in externally-managed annotation will be ignored",
+			"invalid", invalidComponents, "valid", validComponents)
+	}
+
+	// If no valid components after filtering, remove the condition if it exists
+	if len(validComponents) == 0 {
+		// Remove the ComponentsExternallyManaged condition since no components are externally managed
+		RemoveHubCondition(&mch.Status, operatorv1.ComponentsExternallyManaged)
+		return
+	}
+
+	// Log at reconciler level (only valid components)
+	log.Info("External component management enabled", "components", validComponents, "count", len(validComponents))
+
+	// Create a user-friendly message (only valid components)
+	componentList := fmt.Sprintf("[%s]", strings.Join(validComponents, ", "))
+	message := fmt.Sprintf("The following components are externally managed and will not be reconciled by MCH: %s. "+
+		"To allow MCH to manage these components again, remove them from the \"%s\" annotation.",
+		componentList, utils.AnnotationExternallyManaged)
+
+	// Add note about invalid components if any were found
+	if len(invalidComponents) > 0 {
+		invalidList := strings.Join(invalidComponents, ", ")
+		message += fmt.Sprintf(" Note: The following invalid component names were ignored: %s.", invalidList)
+	}
+
+	cond := NewHubCondition(
+		operatorv1.ComponentsExternallyManaged,
+		metav1.ConditionTrue,
+		ExternalManagementReason,
+		message,
+	)
+
+	SetHubCondition(&mch.Status, *cond)
 }
