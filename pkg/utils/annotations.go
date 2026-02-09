@@ -96,6 +96,13 @@ var (
 		to be ended by customer without being overridden.
 	*/
 	AnnotationEditable = "installer.open-cluster-management.io/is-editable"
+
+	/*
+		AnnotationExternallyManaged is an annotation used in multiclusterhub to specify which components
+		are managed externally and should not be reconciled by the operator.
+		Expected format: JSON array ["component1","component2","component3"]
+	*/
+	AnnotationExternallyManaged = "installer.open-cluster-management.io/externally-managed"
 )
 
 /*
