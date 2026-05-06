@@ -393,26 +393,5 @@ func checkDeprecatedAnnotations(r *MultiClusterHub) admission.Warnings {
 		}
 	}
 
-	// Check for deprecated spec fields
-	deprecatedSpecFields := []struct {
-		name      string
-		isPresent bool
-	}{
-		{"spec.hive", r.Spec.Hive != nil},
-		{"spec.ingress", r.Spec.Ingress != nil},
-		{"spec.customCAConfigmap", r.Spec.CustomCAConfigmap != ""},
-		{"spec.enableClusterBackup", r.Spec.EnableClusterBackup},
-		{"spec.enableClusterProxyAddon", r.Spec.EnableClusterProxyAddon},
-		{"spec.separateCertificateManagement", r.Spec.SeparateCertificateManagement},
-	}
-
-	for _, field := range deprecatedSpecFields {
-		if field.isPresent {
-			warning := fmt.Sprintf("field '%s' is deprecated and will be removed in a future release",
-				field.name)
-			warnings = append(warnings, warning)
-		}
-	}
-
 	return warnings
 }
