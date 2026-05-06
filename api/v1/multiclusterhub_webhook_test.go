@@ -88,21 +88,21 @@ var _ = Describe("Multiclusterhub webhook", func() {
 				Expect(k8sClient.Update(ctx, mch)).NotTo(BeNil(), "invalid components should not be permitted")
 				mch.Spec.Overrides = &Overrides{}
 			})
-			By("because of updating SeparateCertificateManagement", func() {
+			By("allowing updates to deprecated SeparateCertificateManagement field", func() {
 				Expect(k8sClient.Get(ctx,
 					types.NamespacedName{Name: multiClusterHubName, Namespace: "default"}, mch)).To(Succeed())
 
-				// flipping it directly
+				// Deprecated fields can now be updated/cleared to support migration
 				mch.Spec.SeparateCertificateManagement = !mch.Spec.SeparateCertificateManagement
-				Expect(k8sClient.Update(ctx, mch)).NotTo(BeNil(),
-					"updating SeparateCertificateManagement should be forbidden")
+				Expect(k8sClient.Update(ctx, mch)).To(Succeed(),
+					"updating SeparateCertificateManagement should be allowed (deprecated field)")
 			})
-			By("because of updating hive", func() {
+			By("allowing updates to deprecated hive field", func() {
 				Expect(k8sClient.Get(ctx,
 					types.NamespacedName{Name: multiClusterHubName, Namespace: "default"}, mch)).To(Succeed())
 
 				mch.Spec.Hive = &HiveConfigSpec{}
-				Expect(k8sClient.Update(ctx, mch)).NotTo(BeNil(), "hive updates are forbidden")
+				Expect(k8sClient.Update(ctx, mch)).To(Succeed(), "hive updates should be allowed (deprecated field)")
 			})
 			By("because of invalid AvailablityConfig", func() {
 				Expect(k8sClient.Get(ctx,
