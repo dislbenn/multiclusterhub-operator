@@ -122,7 +122,6 @@ func AddInstallerLabel(u *unstructured.Unstructured, name string, ns string) {
 }
 
 // MchIsValid Checks if the optional default parameters need to be set
-// For comprehensive validation including required fields and component configs, see MchMeetsRuntimePreconditions
 func MchIsValid(m *operatorsv1.MultiClusterHub) bool {
 	return operatorsv1.AvailabilityConfigIsValid(m.Spec.AvailabilityConfig)
 }
